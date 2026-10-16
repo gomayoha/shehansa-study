@@ -10,9 +10,9 @@
 <meta name="apple-mobile-web-app-title" content="A Levels">
 <meta name="description" content="Shehansa's study plan for Cambridge A Level Psychology, Business and Law.">
 <title>Shehansa's A Levels</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="favicon.png?v=3">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<link rel="manifest" href="manifest.json?v=3">
 <script>try{var t=JSON.parse(localStorage.getItem("shehansa.study.v2")||"{}").theme;if(t&&t!=="classic")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,7 +126,8 @@ a{color:inherit;text-decoration:none}
 .nav-cd{font-size:12.5px;color:var(--text-2);font-variant-numeric:tabular-nums}
 .nav .btn{min-height:30px;padding:0 14px;font-size:12.5px}
 .menu-btn{display:none;width:40px;height:40px;margin-right:-10px;place-items:center}
-@media (max-width:820px){.nav-links,.nav-cd{display:none}.menu-btn{display:grid}}
+@media (max-width:1040px){.nav-links,.nav-cd{display:none}.menu-btn{display:grid}}
+.nav-links a{white-space:nowrap}
 .menu{position:fixed;inset:0;z-index:59;background:var(--menu-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:calc(80px + env(safe-area-inset-top,0px)) var(--gutter) 40px;display:flex;flex-direction:column;gap:6px;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
 .menu.open{opacity:1;visibility:visible;transition:opacity .35s}
 .menu a{font-size:30px;font-weight:700;letter-spacing:-.03em;padding:8px 0;transform:translateY(-8px);opacity:0;transition:transform .5s var(--ease),opacity .5s}
@@ -860,7 +861,9 @@ button.qst:hover{background:var(--bg-2)}
 .arc-img .pill,.m-x{color:#1d1d1f}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .reading #decor{display:none}
-.vault-chest button svg{display:block;width:100%;height:auto}
+.vault-chest button img{display:block;width:100%;height:auto}
+.trr-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-right:40px}
+.trr-king{flex:none;width:clamp(88px,12vw,124px);height:auto;margin:-14px 0 -6px;pointer-events:none;filter:drop-shadow(0 14px 22px rgba(0,0,0,.5))}
 .finish.trial{background:linear-gradient(115deg,#1d1238,#3a1f5e);color:#f6f1ff;box-shadow:none}
 .finish.trial div > span{color:#c3b8de}
 .finish.trial .fin-ic{background:rgba(245,199,107,.16);color:#f5c76b}
@@ -924,7 +927,7 @@ button.qst:hover{background:var(--bg-2)}
 .btn-ghost{background:rgba(255,255,255,.08);color:var(--text);box-shadow:inset 0 0 0 1px var(--line-2)}
 .btn-ghost:hover{background:rgba(255,255,255,.14)}
 .vault-chest{display:grid;place-items:center}
-.vault-chest button{position:relative;width:min(330px,74vw);transition:transform .6s var(--spring);filter:drop-shadow(0 34px 40px rgba(0,0,0,.55))}
+.vault-chest button{position:relative;width:min(360px,78vw);transition:transform .6s var(--spring);filter:drop-shadow(0 34px 40px rgba(0,0,0,.55))}
 .vault-chest button.has{animation:chestBob 3.2s ease-in-out infinite}
 .vault-chest button:hover{transform:scale(1.04)}
 .vault-chest button > b{position:absolute;right:6%;top:4%;min-width:38px;height:38px;padding:0 10px;border-radius:19px;display:grid;place-items:center;background:#ff453a;color:#fff;font-size:17px;box-shadow:0 8px 20px -6px rgba(255,69,58,.8)}
@@ -1329,7 +1332,7 @@ button.bc:hover{transform:translateY(-6px)}
           <div class="inv" id="inv"></div>
           <div class="cta-row"><button class="btn btn-gold" data-act="treasure">Open treasure</button><button class="btn btn-ghost" data-act="room">Play with Betty</button></div>
         </div>
-        <div class="vault-chest" data-reveal><button id="vault-chest" data-act="treasure" aria-label="Open treasure"></button></div>
+        <div class="vault-chest" data-reveal><button id="vault-chest" data-act="treasure" aria-label="Open treasure with Luffy"></button></div>
       </div>
       <div class="trial-card" id="trial-card" data-reveal></div>
       <div class="col-head" data-reveal><h3 class="h3">Betty cards.</h3><span id="col-count"></span></div>
@@ -3015,6 +3018,7 @@ const ADVICE = [
   ['Robin', 'img/robin.jpg', 'Past papers are maps of the exam. Read the mark scheme like treasure directions.'],
   ['Luffy', 'img/crew/luffy.jpg', "You don't have to be the smartest. You just have to keep going until you reach the end."],
   ['Luffy', 'img/crew/luffy.jpg', 'Stuck? Eat something, then start the smallest possible task. Momentum does the rest.'],
+  ['Luffy', 'img/crew/luffy.jpg', "I'm going to be King of the Pirates. You're going to pass your A Levels. Same thing: don't stop until you get there."],
   ['Zoro', 'img/crew/zoro.jpg', 'Put your phone in another room. Real training has no distractions.'],
   ['Zoro', 'img/crew/zoro.jpg', 'Discipline beats motivation. Same time, same place, every day.'],
   ['Sanji', 'img/crew/sanji.jpg', 'Eat a proper meal before a long session. Your brain runs on it.'],
@@ -3088,7 +3092,7 @@ function packReveal() {
 }
 function treasureHTML() {
   const it = (art, n, label, act, t) => `<div class="trr-it${n ? '' : ' none'}">${art}<b>${label}</b><span>${n ? `${n} to open` : 'None yet'}</span>${n ? `<button class="btn btn-gold" data-act="${act}"${t ? ` data-t="${t}"` : ''}>Open</button>` : ''}</div>`;
-  return `<div class="trr"><p class="eyebrow">The treasure room</p><h2 class="h2" style="font-size:clamp(36px,5vw,56px)">Your treasure.</h2>
+  return `<div class="trr"><div class="trr-head"><div><p class="eyebrow">The treasure room</p><h2 class="h2" style="font-size:clamp(36px,5vw,56px)">Your treasure.</h2></div><img class="trr-king" src="img/crew/luffy-king.webp" alt=""></div>
     <div class="trr-grid">${it(chestFull('wood'), ST.chests.wood, 'Wooden chest', 'chest', 'wood')}${it(chestFull('silver'), ST.chests.silver, 'Silver chest', 'chest', 'silver')}${it(chestFull('gold'), ST.chests.gold, 'Golden chest', 'chest', 'gold')}${it(packMini(), ST.packs, 'Card pack', 'pack')}</div>
     <div class="inv" style="justify-content:center;margin-top:22px">${invHTML(true)}</div>
     <p style="text-align:center;color:var(--text-3);font-size:13.5px;margin:18px 0 0">Chests come from sessions, timers and perfect days. Card packs come from full days.</p></div>`;
@@ -3104,8 +3108,8 @@ function renderVault() {
   g.classList.toggle('has', tot > 0); put(g, icon('gift') + (tot ? `<b>${tot}</b>` : ''));
   g.setAttribute('aria-label', tot ? `Treasure: ${tot} to open` : 'Treasure');
   put('#inv', invHTML(false));
-  const vc = $('#vault-chest'), best = ST.chests.gold ? 'gold' : ST.chests.silver ? 'silver' : 'wood';
-  put(vc, chestFull(best) + (tot ? `<b>${tot}</b>` : '')); vc.classList.toggle('has', tot > 0);
+  const vc = $('#vault-chest');
+  put(vc, `<img src="img/crew/luffy-king.webp" alt="Luffy, the Pirate King, sitting on his treasure" loading="lazy" decoding="async">${tot ? `<b>${tot}</b>` : ''}`); vc.classList.toggle('has', tot > 0);
   const n = ownedN();
   $('#col-count').textContent = `${n} of ${CARDS.length} collected · ${ST.dust} stardust`;
   $('#col-bar').style.setProperty('--p', (n / CARDS.length * 100).toFixed(1) + '%');
